@@ -21,7 +21,12 @@ export const productDbDataProvider = (): DataProvider => ({
       meta,
     });
 
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      params: {
+        limit: pagination?.pageSize,
+        page: pagination?.current,
+      },
+    });
     if (response.status === 200) {
       return {
         data: response.data.result,
@@ -79,12 +84,21 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   getOne: async ({ resource, id, meta }) => {
-    // TODO: send request to the API
-    // const response = await httpClient.get(url, {});
+    console.log("getOne", {
+      resource,
+      id,
+      meta,
+    });
 
-    return {
-      data: {} as any,
-    };
+    const result = await axios.get(`${API_URL}/${resource}/${id}`);
+    if (result.status === 200) {
+      return {
+        data: result.data.result,
+      };
+    } else
+      return {
+        data: {} as any,
+      };
   },
 
   deleteOne: async ({ resource, id, variables, meta }) => {

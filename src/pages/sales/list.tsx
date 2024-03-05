@@ -10,12 +10,14 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
     () => [
       {
         field: "id",
+        flex: 1,
         headerName: "ID",
         minWidth: 100,
         filterable: false,
       },
       {
         field: "date",
+        flex: 1,
         headerName: "Date",
         minWidth: 100,
         filterable: false,
@@ -24,6 +26,7 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
       },
       {
         field: "total",
+        flex: 1,
         headerName: "Total",
         type: "number",
         minWidth: 100,

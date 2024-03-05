@@ -6,6 +6,7 @@ import {
   useDataGrid,
 } from "@refinedev/mui";
 import React from "react";
+import { currencyFormatter } from "../../shared/currency-formatter";
 
 const onlyContainsfilterOperators = getGridStringOperators().filter(({ value }) =>
   ['contains' ].includes(value),
@@ -42,11 +43,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
           }
           return 0;
         },
-        valueFormatter: (params) =>
-          new Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          }).format(params?.value),
+        valueFormatter: (params) => currencyFormatter.format(params?.value),
       },
       {
         field: "actions",

@@ -21,7 +21,9 @@ export const productDbDataProvider = (): DataProvider => ({
       meta,
     });
 
-    const keyword = filters?.find((filter) => filter.field === "name")?.value;
+    const keyword = filters?.find((filter: any) => {
+      return filter.field === "name";
+    })?.value;
 
     const response = await axios.get(url, {
       params: {

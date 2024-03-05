@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, getGridStringOperators } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 import {
   List,
@@ -6,6 +6,10 @@ import {
   useDataGrid,
 } from "@refinedev/mui";
 import React from "react";
+
+const onlyContainsfilterOperators = getGridStringOperators().filter(({ value }) =>
+  ['contains' ].includes(value),
+);
 
 export const ProductList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({});
@@ -16,12 +20,14 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         field: "id",
         headerName: "ID",
         minWidth: 50,
+        filterable: false,
       },
       {
         field: "name",
         flex: 1,
         headerName: "Name",
         minWidth: 200,
+        filterOperators: onlyContainsfilterOperators,
       },
       {
         field: "priceHistory",
@@ -29,17 +35,24 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Value",
         type: "number",
         minWidth: 100,
+        filterable: false,
         valueGetter: (params) => {
           if (params.value) {
             return params.value[0].value;
           }
           return 0;
         },
+        valueFormatter: (params) =>
+          new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }).format(params?.value),
       },
       {
         field: "actions",
         headerName: "Actions",
         sortable: false,
+        filterable: false,
         renderCell: function render({ row }) {
           return (
             <>

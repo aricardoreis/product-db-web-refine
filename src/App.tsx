@@ -1,4 +1,4 @@
-import { GitHubBanner, Refine } from "@refinedev/core";
+import { Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -7,6 +7,7 @@ import {
   notificationProvider,
   RefineSnackbarProvider,
   ThemedLayoutV2,
+  ThemedTitleV2,
 } from "@refinedev/mui";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -34,11 +35,13 @@ import {
 } from "./pages/categories";
 import { SaleList, SaleShow } from "./pages/sales";
 import { productDbDataProvider } from "./providers/product-db-data-provider";
+import { ProductList, ProductShow } from "./pages/products";
+import StoreIcon from "@mui/icons-material/Store";
+import StoreMallDirectoryTwoToneIcon from "@mui/icons-material/StoreMallDirectoryTwoTone";
 
 function App() {
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
@@ -82,6 +85,15 @@ function App() {
                       canDelete: false,
                     },
                   },
+                  {
+                    name: "products",
+                    list: "/products",
+                    show: "/products/show/:id",
+                    meta: {
+                      dataProviderName: "productDb",
+                      canDelete: false,
+                    },
+                  },
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -93,14 +105,29 @@ function App() {
                 <Routes>
                   <Route
                     element={
-                      <ThemedLayoutV2 Header={() => <Header sticky />}>
+                      <ThemedLayoutV2
+                        Title={({ collapsed }) => (
+                          <ThemedTitleV2
+                            collapsed={collapsed}
+                            icon={
+                              collapsed ? (
+                                <StoreIcon />
+                              ) : (
+                                <StoreMallDirectoryTwoToneIcon />
+                              )
+                            }
+                            text="Product DB"
+                          />
+                        )}
+                        Header={() => <Header sticky />}
+                      >
                         <Outlet />
                       </ThemedLayoutV2>
                     }
                   >
                     <Route
                       index
-                      element={<NavigateToResource resource="blog_posts" />}
+                      element={<NavigateToResource resource="sales" />}
                     />
                     <Route path="/blog-posts">
                       <Route index element={<BlogPostList />} />
@@ -117,6 +144,10 @@ function App() {
                     <Route path="/sales">
                       <Route index element={<SaleList />} />
                       <Route path="show/:id" element={<SaleShow />} />
+                    </Route>
+                    <Route path="/products">
+                      <Route index element={<ProductList />} />
+                      <Route path="show/:id" element={<ProductShow />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>

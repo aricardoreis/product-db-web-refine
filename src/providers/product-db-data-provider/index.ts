@@ -7,11 +7,16 @@ import axios from "axios";
  **/
 
 // const API_URL = "https://app.rolimreis.com";
-const API_URL = "http://localhost:3000";
+let apiUrl: string;
+if (process.env.NODE_ENV !== 'production') {
+  apiUrl = "http://localhost:3000";
+} else {
+  apiUrl = "https://app.rolimreis.com";
+}
 
 export const productDbDataProvider = (): DataProvider => ({
   getList: async ({ resource, pagination, filters, sorters, meta }) => {
-    const url = `${API_URL}/${resource}`;
+    const url = `${apiUrl}/${resource}`;
 
     console.log("getList", {
       resource,
@@ -96,7 +101,7 @@ export const productDbDataProvider = (): DataProvider => ({
       meta,
     });
 
-    const result = await axios.get(`${API_URL}/${resource}/${id}`);
+    const result = await axios.get(`${apiUrl}/${resource}/${id}`);
     if (result.status === 200) {
       return {
         data: result.data.result,
@@ -124,7 +129,7 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   getApiUrl: () => {
-    return API_URL;
+    return apiUrl;
   },
 
   custom: async ({

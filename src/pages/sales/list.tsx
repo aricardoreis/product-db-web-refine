@@ -1,10 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
-import {
-  List,
-  ShowButton,
-  useDataGrid,
-} from "@refinedev/mui";
+import { List, ShowButton, useDataGrid } from "@refinedev/mui";
 import React from "react";
 
 export const SaleList: React.FC<IResourceComponentsProps> = () => {
@@ -15,17 +11,17 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "id",
         headerName: "ID",
-        minWidth: 50,
+        minWidth: 100,
       },
       {
         field: "date",
-        flex: 1,
         headerName: "Date",
-        minWidth: 120,
+        minWidth: 100,
+        valueFormatter: (params) =>
+          new Intl.DateTimeFormat("pt-BR").format(new Date(params?.value)),
       },
       {
         field: "total",
-        flex: 1,
         headerName: "Total",
         type: "number",
         minWidth: 100,

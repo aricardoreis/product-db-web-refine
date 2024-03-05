@@ -45,9 +45,10 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
           Price History
         </Typography>
         {record?.priceHistory?.map((item) => (
-          <Typography variant="body1" key={item.id}>
-            {currencyFormatter.format(item.value)}
-          </Typography>
+          <TextField
+            key={item.id}
+            value={currencyFormatter.format(item.value)}
+          />
         ))}
       </Stack>
     </Show>

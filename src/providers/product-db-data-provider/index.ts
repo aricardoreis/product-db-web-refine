@@ -27,10 +27,11 @@ export const productDbDataProvider = (): DataProvider => ({
         page: pagination?.current,
       },
     });
+
     if (response.status === 200) {
       return {
         data: response.data.result,
-        total: response.data.result.length,
+        total: response.data.total,
       };
     }
 

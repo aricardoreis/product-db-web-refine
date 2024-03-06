@@ -6,13 +6,11 @@ import axios from "axios";
  * https://refine.dev/docs/api-reference/core/providers/data-provider/
  **/
 
-// const API_URL = "https://app.rolimreis.com";
-let apiUrl: string;
-if (process.env.NODE_ENV !== 'production') {
-  apiUrl = "http://localhost:3000";
-} else {
-  apiUrl = "https://app.rolimreis.com";
+console.log(import.meta.env.VITE_API_URL);
+if(!import.meta.env.VITE_API_URL) {
+  throw new Error("VITE_API_URL is not set");
 }
+const apiUrl: string = import.meta.env.VITE_API_URL;
 
 export const productDbDataProvider = (): DataProvider => ({
   getList: async ({ resource, pagination, filters, sorters, meta }) => {

@@ -26,9 +26,7 @@ return (
       <Typography variant="body1" fontWeight="bold">
         Date
       </Typography>
-      <DateField
-        value={new Intl.DateTimeFormat("pt-BR").format(new Date(record?.date))}
-      />
+      <TextField value={new Intl.DateTimeFormat("pt-BR").format(new Date(record?.date))} />
       <Typography variant="body1" fontWeight="bold">
         Products
       </Typography>

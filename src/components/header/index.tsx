@@ -6,10 +6,14 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useGetIdentity } from "@refinedev/core";
+import { useGetIdentity, useNotification } from "@refinedev/core";
 import { HamburgerMenu, RefineThemedLayoutV2HeaderProps } from "@refinedev/mui";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ColorModeContext } from "../../contexts/color-mode";
+import { CloseOutlined, QrCodeScannerOutlined } from "@mui/icons-material";
+import { BarcodeScanner } from "../barcode-scanner";
+import { CircularProgress } from "@mui/material";
+import { createSaleFromInvoice } from "../../services";
 
 type IUser = {
   id: number;
@@ -20,12 +24,44 @@ type IUser = {
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   sticky = true,
 }) => {
+  const { open } = useNotification();
   const { mode, setMode } = useContext(ColorModeContext);
 
   const { data: user } = useGetIdentity<IUser>();
 
+  const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onDecodeResult = async (result: string) => {
+    setMounted(false);
+
+    // call service to create sale information
+    setIsLoading(true);
+    createSaleFromInvoice(result)
+      .then((data) => {
+        console.log("success creating invoice", data);
+        open?.({
+          type: "success",
+          message: "Sale created successfully",
+          key: "sale-creation-success",
+        });
+      })
+      .catch((error) => {
+        console.log("error creating invoice", error);
+        open?.({
+          type: "error",
+          message: "Error creating sale",
+          key: "sale-creation-error",
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   return (
     <AppBar position={sticky ? "sticky" : "relative"}>
+      {mounted && !isLoading ? <BarcodeScanner onDecodeResult={onDecodeResult} /> : null}
       <Toolbar>
         <Stack
           direction="row"
@@ -40,6 +76,16 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
             justifyContent="flex-end"
             alignItems="center"
           >
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                setMounted(!mounted);
+              }}
+            >
+              {mounted ? <CloseOutlined /> : <QrCodeScannerOutlined />}
+            </IconButton>
+            {isLoading ? <CircularProgress color="inherit" size={24} /> : null}
+
             <IconButton
               color="inherit"
               onClick={() => {

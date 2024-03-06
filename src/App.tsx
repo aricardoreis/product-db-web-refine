@@ -4,10 +4,10 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import {
   ErrorComponent,
-  notificationProvider,
   RefineSnackbarProvider,
   ThemedLayoutV2,
   ThemedTitleV2,
+  useNotificationProvider,
 } from "@refinedev/mui";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -37,7 +37,7 @@ function App() {
             <DevtoolsProvider>
               <Refine
                 dataProvider={productDbDataProvider()}
-                notificationProvider={notificationProvider}
+                notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
                 resources={[
                   {
@@ -45,7 +45,6 @@ function App() {
                     list: "/sales",
                     show: "/sales/show/:id",
                     meta: {
-                      dataProviderName: "productDb",
                       canDelete: false,
                     },
                   },

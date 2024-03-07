@@ -5,8 +5,9 @@ import {
   TextFieldComponent as TextField,
   BooleanField,
 } from "@refinedev/mui";
-import { Typography, Stack } from "@mui/material";
+import { Typography, Stack, Box, Grid } from "@mui/material";
 import { currencyFormatter } from "../../shared/currency-formatter";
+import { formatDate } from "../../shared/date-formatter";
 
 export const ProductShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow();
@@ -44,12 +45,18 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
         <Typography variant="body1" fontWeight="bold">
           Price History
         </Typography>
-        {record?.priceHistory?.map((item) => (
-          <TextField
-            key={item.id}
-            value={currencyFormatter.format(item.value)}
-          />
-        ))}
+        <Box sx={{ flexGrow: 1 }}>
+          {record?.priceHistory?.map((item) => (
+            <Grid container key={item.id} xs={6} lg={4} justifyContent="space-between">
+              <Grid item xs>
+                {formatDate(item.date)}
+              </Grid>
+              <Grid item xs>
+                {currencyFormatter.format(item.value)}
+              </Grid>
+            </Grid>
+          ))}
+        </Box>
       </Stack>
     </Show>
   );

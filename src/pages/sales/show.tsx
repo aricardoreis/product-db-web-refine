@@ -1,8 +1,27 @@
 import { useShow, IResourceComponentsProps } from "@refinedev/core";
 import { Show, TextFieldComponent as TextField } from "@refinedev/mui";
-import { Typography, Stack } from "@mui/material";
+import { Typography, Stack, Grid, Box } from "@mui/material";
 import { currencyFormatter } from "../../shared/currency-formatter";
 import { formatDate } from "../../shared/date-formatter";
+
+const ProductItem = (item: any) => {
+  return (
+    <Grid container justifyContent="space-between" key={item.id}>
+      <Grid item xs={6}>
+        {item.name}
+      </Grid>
+      <Grid item xs>
+        {item.type}
+      </Grid>
+      <Grid item xs>
+        {item.amount}
+      </Grid>
+      <Grid item xs>
+        {currencyFormatter.format(item.value)}
+      </Grid>
+    </Grid>
+  );
+};
 
 export const SaleShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow();
@@ -28,12 +47,11 @@ export const SaleShow: React.FC<IResourceComponentsProps> = () => {
         <Typography variant="body1" fontWeight="bold">
           Products
         </Typography>
-        {record?.products?.map((item) => (
-          <Typography variant="body1" key={item.id}>
-            {item.name} | {item.type} | {item.amount} |{" "}
-            {currencyFormatter.format(item.value)}
-          </Typography>
-        ))}
+        <Box sx={{ flexGrow: 1 }}>
+          {record?.products?.map((item: any) => (
+            <ProductItem key={item.id} {...item} />
+          ))}
+        </Box>
         <Typography variant="body1" fontWeight="bold">
           Total
         </Typography>

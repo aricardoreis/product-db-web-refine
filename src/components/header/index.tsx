@@ -61,7 +61,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
 
   return (
     <AppBar position={sticky ? "sticky" : "relative"}>
-      {mounted && !isLoading ? <BarcodeScanner onDecodeResult={onDecodeResult} /> : null}
+      {mounted ? <BarcodeScanner onDecodeResult={onDecodeResult} /> : null}
       <Toolbar>
         <Stack
           direction="row"
@@ -82,7 +82,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
                 setMounted(!mounted);
               }}
             >
-              {mounted ? <CloseOutlined /> : <QrCodeScannerOutlined />}
+              {mounted ? <CloseOutlined /> : !isLoading && <QrCodeScannerOutlined />}
             </IconButton>
             {isLoading ? <CircularProgress color="inherit" size={24} /> : null}
 

@@ -39,6 +39,7 @@
     "vite": "^4.3.1"
   },
   "scripts": {
+    "start": "refine start --port 3003",
     "dev": "refine dev --port 3003",
     "dev:host": "refine dev --port 3003 --host",
     "build": "tsc && refine build",

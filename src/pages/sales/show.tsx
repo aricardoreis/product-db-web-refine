@@ -23,7 +23,7 @@ const ProductItem = (item: any) => {
   );
 };
 
-export const SaleShow: React.FC<IResourceComponentsProps> = () => {
+const SaleShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow();
   const { data, isLoading } = queryResult;
 
@@ -60,3 +60,5 @@ export const SaleShow: React.FC<IResourceComponentsProps> = () => {
     </Show>
   );
 };
+
+export default SaleShow

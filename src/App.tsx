@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
@@ -20,11 +21,13 @@ import routerBindings, {
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { SaleList, SaleShow } from "./pages/sales";
 import { productDbDataProvider } from "./providers/product-db-data-provider";
 import { ProductList, ProductShow } from "./pages/products";
 import StoreIcon from "@mui/icons-material/Store";
 import StoreMallDirectoryTwoToneIcon from "@mui/icons-material/StoreMallDirectoryTwoTone";
+
+const SaleList = React.lazy(() => import("./pages/sales/list"));
+const SaleShow = React.lazy(() => import("./pages/sales/show"));
 
 function App() {
   return (

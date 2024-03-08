@@ -15,9 +15,9 @@ export default defineConfig({
 });
 
 const splitByGroups = (id: string) => {
-  const chunkBigGroups = ["@mui", "@zxing", "@refinedev", "react-dom"];
+  const chunkGroups = ["@mui", "@zxing", "@refinedev"];
   if (id.includes("node_modules")) {
-    return chunkBigGroups.find((group) => id.includes(group)) ?? "vendor";
+    return chunkGroups.find((group) => id.includes(group));
   }
 };
 

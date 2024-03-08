@@ -3,7 +3,7 @@ import { IResourceComponentsProps } from "@refinedev/core";
 import { List, ShowButton, useDataGrid } from "@refinedev/mui";
 import React from "react";
 
-export const SaleList: React.FC<IResourceComponentsProps> = () => {
+const SaleList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({});
 
   const columns = React.useMemo<GridColDef[]>(
@@ -63,3 +63,5 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
     </List>
   );
 };
+
+export default SaleList;

@@ -8,6 +8,7 @@ on:
 
 env:
   VITE_API_URL: ${{ secrets.API_URL }}
+  PM2_PATH: /home/arrr/.nvm/versions/node/v18.12.1/bin/pm2
 
 jobs:
   build:
@@ -62,8 +63,6 @@ jobs:
         password: ${{ secrets.RASPI_PASSWORD }}
         port: 22
         script: |
-          sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"
-          sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
-          sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/pm2" "/usr/local/bin/pm2"
-          pm2 reload 3
+          ${{ env.PM2_PATH }} status
+          ${{ env.PM2_PATH }} reload 3
           

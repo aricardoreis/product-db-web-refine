@@ -48,6 +48,6 @@ jobs:
         password: ${{ secrets.RASPI_PASSWORD }}
         port: 22
         source: "dist/**"
-        target: "Documents/code/product-db-web-refine/dist"
+        target: "Documents/code/product-db-web-refine"
         rm: true
       

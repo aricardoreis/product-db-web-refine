@@ -10,6 +10,8 @@ import {
   useNotificationProvider,
 } from "@refinedev/mui";
 
+import StoreIcon from "@mui/icons-material/Store";
+import StoreMallDirectoryTwoToneIcon from "@mui/icons-material/StoreMallDirectoryTwoTone";
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import routerBindings, {
@@ -20,11 +22,9 @@ import routerBindings, {
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
+import { ProductList, ProductShow } from "./pages/products";
 import { SaleList, SaleShow } from "./pages/sales";
 import { productDbDataProvider } from "./providers/product-db-data-provider";
-import { ProductList, ProductShow } from "./pages/products";
-import StoreIcon from "@mui/icons-material/Store";
-import StoreMallDirectoryTwoToneIcon from "@mui/icons-material/StoreMallDirectoryTwoTone";
 
 function App() {
   return (

@@ -17,15 +17,15 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Cache dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: |
           **/node_modules
@@ -50,4 +50,14 @@ jobs:
         source: "dist/**"
         target: "Documents/code/product-db-web-refine"
         rm: true
-      
+
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.RASPI_HOST }}
+        username: ${{ secrets.RASPI_USERNAME }}
+        password: ${{ secrets.RASPI_PASSWORD }}
+        port: 22
+        script: |
+          pm2 reload 3
+          

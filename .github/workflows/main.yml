@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  VITE_API_URL: https://app.rolimreis.com
+  VITE_API_URL: ${{ secrets.API_URL }}
 
 jobs:
   build:
@@ -62,5 +62,6 @@ jobs:
         password: ${{ secrets.RASPI_PASSWORD }}
         port: 22
         script: |
+          sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/pm2" "/usr/local/bin/pm2"
           pm2 reload 3
           

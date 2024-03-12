@@ -8,7 +8,7 @@ on:
 
 env:
   VITE_API_URL: ${{ secrets.API_URL }}
-  PM2_PATH: /home/arrr/.nvm/versions/node/v18.12.1/bin/pm2
+  PM2_PATH: ${{ secrets.PM2_PATH }}
 
 jobs:
   build:
@@ -64,5 +64,5 @@ jobs:
         port: 22
         script: |
           ${{ env.PM2_PATH }} status
-          ${{ env.PM2_PATH }} reload 3
+          ${{ env.PM2_PATH }} reload product-db-web
           

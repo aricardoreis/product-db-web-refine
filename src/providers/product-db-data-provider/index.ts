@@ -7,7 +7,7 @@ import axios from "axios";
  **/
 
 console.log(import.meta.env.VITE_API_URL);
-if(!import.meta.env.VITE_API_URL) {
+if (!import.meta.env.VITE_API_URL) {
   throw new Error("VITE_API_URL is not set");
 }
 const apiUrl: string = import.meta.env.VITE_API_URL;
@@ -77,6 +77,8 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   update: async ({ resource, id, variables, meta }) => {
+    const url = `${apiUrl}/${resource}/${id}`;
+
     console.log("update", {
       resource,
       id,
@@ -84,8 +86,15 @@ export const productDbDataProvider = (): DataProvider => ({
       meta,
     });
 
-    // TODO: send request to the API
-    // const response = await httpClient.post(url, {});
+    const response = await axios.patch(url, {
+      ...variables,
+    });
+
+    if (response.status === 200) {
+      return {
+        data: response.data.result,
+      };
+    }
 
     return {
       data: {} as any,

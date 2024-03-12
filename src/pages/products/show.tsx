@@ -47,7 +47,7 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
         </Typography>
         <Box sx={{ flexGrow: 1 }}>
           {record?.priceHistory?.map((item) => (
-            <Grid container key={item.id} xs={6} lg={4} justifyContent="space-between">
+            <Grid container key={item.id} xs={6} justifyContent="space-between">
               <Grid item xs>
                 {formatDate(item.date)}
               </Grid>

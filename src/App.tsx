@@ -22,7 +22,7 @@ import routerBindings, {
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { ProductList, ProductShow } from "./pages/products";
+import { ProductEdit, ProductList, ProductShow } from "./pages/products";
 import { SaleList, SaleShow } from "./pages/sales";
 import { productDbDataProvider } from "./providers/product-db-data-provider";
 
@@ -51,6 +51,7 @@ function App() {
                   {
                     name: "products",
                     list: "/products",
+                    edit: "/products/edit/:id",
                     show: "/products/show/:id",
                     meta: {
                       canDelete: false,
@@ -97,6 +98,7 @@ function App() {
                     </Route>
                     <Route path="/products">
                       <Route index element={<ProductList />} />
+                      <Route path="edit/:id" element={<ProductEdit />} />
                       <Route path="show/:id" element={<ProductShow />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />

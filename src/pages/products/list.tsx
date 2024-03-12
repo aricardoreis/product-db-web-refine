@@ -2,6 +2,7 @@ import { DataGrid, GridColDef, getGridStringOperators } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 import {
   List,
+  EditButton,
   ShowButton,
   useDataGrid,
 } from "@refinedev/mui";
@@ -53,6 +54,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         renderCell: function render({ row }) {
           return (
             <>
+              <EditButton hideText recordItemId={row.id} />
               <ShowButton hideText recordItemId={row.id} />
             </>
           );

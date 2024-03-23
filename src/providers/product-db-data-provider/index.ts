@@ -1,4 +1,4 @@
-import { DataProvider } from "@refinedev/core";
+import { CrudSort, DataProvider } from "@refinedev/core";
 import axios from "axios";
 
 /**
@@ -28,11 +28,16 @@ export const productDbDataProvider = (): DataProvider => ({
       return filter.field === "name";
     })?.value;
 
+    const sortField = sorters?.map((sorter: CrudSort) => {
+      return `${sorter.field}:${sorter.order}`;
+    });
+
     const response = await axios.get(url, {
       params: {
         limit: pagination?.pageSize,
         page: pagination?.current,
         keyword: keyword,
+        sort: sortField?.length ? sortField[0] : undefined,
       },
     });
 

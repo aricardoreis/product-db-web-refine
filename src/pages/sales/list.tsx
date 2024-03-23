@@ -14,6 +14,7 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
         headerName: "ID",
         minWidth: 100,
         filterable: false,
+        sortable: false,
       },
       {
         field: "date",
@@ -21,6 +22,7 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Date",
         minWidth: 100,
         filterable: false,
+        sortable: false,
         valueFormatter: (params) =>
           new Intl.DateTimeFormat("pt-BR").format(new Date(params?.value)),
       },
@@ -31,6 +33,7 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
         type: "number",
         minWidth: 100,
         filterable: false,
+        sortable: false,
         valueFormatter: (params) =>
           new Intl.NumberFormat("pt-BR", {
             style: "currency",

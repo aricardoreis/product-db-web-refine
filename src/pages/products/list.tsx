@@ -38,6 +38,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         type: "number",
         minWidth: 100,
         filterable: false,
+        sortable: false,
         valueGetter: (params) => {
           if (params.value) {
             return params.value[0].value;

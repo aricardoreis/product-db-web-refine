@@ -40,7 +40,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         filterable: false,
         sortable: false,
         valueGetter: (params) => {
-          if (params.value) {
+          if (params.value && params.value.length > 0) {
             return params.value[0].value;
           }
           return 0;

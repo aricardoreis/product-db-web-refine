@@ -12,11 +12,13 @@ if (!import.meta.env.VITE_API_URL) {
   throw new Error("VITE_API_URL is not set");
 }
 const apiUrl: string = import.meta.env.VITE_API_URL;
-const axiosConfig = {
-  baseURL: apiUrl,
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN_KEY)}`,
-  },
+const getAxiosConfig = () => {
+  return {
+    baseURL: apiUrl,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN_KEY)}`,
+    },
+  };
 };
 
 export const productDbDataProvider = (): DataProvider => ({
@@ -38,7 +40,7 @@ export const productDbDataProvider = (): DataProvider => ({
     });
 
     await axios.get(`/${resource}`, {
-      ...axiosConfig,
+      ...getAxiosConfig(),
       params: {
         limit: pagination?.pageSize,
         page: pagination?.current,
@@ -48,7 +50,7 @@ export const productDbDataProvider = (): DataProvider => ({
     });
 
     const response = await axios.get(`/${resource}`, {
-      ...axiosConfig,
+      ...getAxiosConfig(),
       params: {
         limit: pagination?.pageSize,
         page: pagination?.current,
@@ -110,7 +112,7 @@ export const productDbDataProvider = (): DataProvider => ({
       {
         ...variables,
       },
-      axiosConfig
+      getAxiosConfig()
     );
 
     if (response.status === 200) {
@@ -131,7 +133,7 @@ export const productDbDataProvider = (): DataProvider => ({
       meta,
     });
 
-    const result = await axios.get(`/${resource}/${id}`, axiosConfig);
+    const result = await axios.get(`/${resource}/${id}`, getAxiosConfig());
     if (result.status === 200) {
       return {
         data: result.data.result,

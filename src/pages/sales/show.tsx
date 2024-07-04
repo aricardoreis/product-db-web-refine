@@ -6,7 +6,7 @@ import { formatDate } from "../../shared/date-formatter";
 
 const ProductItem = (item: any) => {
   return (
-    <Grid container justifyContent="space-between" key={item.id}>
+    <Grid container justifyContent="space-between">
       <Grid item xs={6}>
         {item.name}
       </Grid>
@@ -29,6 +29,7 @@ export const SaleShow: React.FC<IResourceComponentsProps> = () => {
 
   const record = data?.data;
 
+  let productIndex = 1;
   return (
     <Show isLoading={isLoading}>
       <Stack gap={1}>
@@ -49,7 +50,7 @@ export const SaleShow: React.FC<IResourceComponentsProps> = () => {
         </Typography>
         <Box sx={{ flexGrow: 1 }}>
           {record?.products?.map((item: any) => (
-            <ProductItem key={item.id} {...item} />
+            <ProductItem key={productIndex++} {...item} />
           ))}
         </Box>
         <Typography variant="body1" fontWeight="bold">

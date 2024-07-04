@@ -1,4 +1,4 @@
-import { Refine } from "@refinedev/core";
+import { Authenticated, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -24,7 +24,9 @@ import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { ProductEdit, ProductList, ProductShow } from "./pages/products";
 import { SaleList, SaleShow } from "./pages/sales";
-import { productDbDataProvider } from "./providers/product-db-data-provider";
+import { productDbDataProvider } from "./providers/data-provider";
+import { authProvider } from "./providers/auth-provider";
+import { Login } from "./pages/login";
 
 function App() {
   return (
@@ -36,6 +38,7 @@ function App() {
           <RefineSnackbarProvider>
             <DevtoolsProvider>
               <Refine
+                authProvider={authProvider}
                 dataProvider={productDbDataProvider()}
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
@@ -65,46 +68,50 @@ function App() {
                   projectId: "t0Tb4t-eqUpAQ-clICbo",
                 }}
               >
-                <Routes>
-                  <Route
-                    element={
-                      <ThemedLayoutV2
-                        Title={({ collapsed }) => (
-                          <ThemedTitleV2
-                            collapsed={collapsed}
-                            icon={
-                              collapsed ? (
-                                <StoreIcon />
-                              ) : (
-                                <StoreMallDirectoryTwoToneIcon />
-                              )
-                            }
-                            text="Product DB"
-                          />
-                        )}
-                        Header={() => <Header sticky />}
-                      >
-                        <Outlet />
-                      </ThemedLayoutV2>
-                    }
-                  >
+                <Authenticated
+                  key="protected"
+                  fallback={<Login />}
+                >
+                  <Routes>
                     <Route
-                      index
-                      element={<NavigateToResource resource="products" />}
-                    />
-                    <Route path="/sales">
-                      <Route index element={<SaleList />} />
-                      <Route path="show/:id" element={<SaleShow />} />
+                      element={
+                        <ThemedLayoutV2
+                          Title={({ collapsed }) => (
+                            <ThemedTitleV2
+                              collapsed={collapsed}
+                              icon={
+                                collapsed ? (
+                                  <StoreIcon />
+                                ) : (
+                                  <StoreMallDirectoryTwoToneIcon />
+                                )
+                              }
+                              text="Product DB"
+                            />
+                          )}
+                          Header={() => <Header sticky />}
+                        >
+                          <Outlet />
+                        </ThemedLayoutV2>
+                      }
+                    >
+                      <Route
+                        index
+                        element={<NavigateToResource resource="products" />}
+                      />
+                      <Route path="/sales">
+                        <Route index element={<SaleList />} />
+                        <Route path="show/:id" element={<SaleShow />} />
+                      </Route>
+                      <Route path="/products">
+                        <Route index element={<ProductList />} />
+                        <Route path="edit/:id" element={<ProductEdit />} />
+                        <Route path="show/:id" element={<ProductShow />} />
+                      </Route>
+                      <Route path="*" element={<ErrorComponent />} />
                     </Route>
-                    <Route path="/products">
-                      <Route index element={<ProductList />} />
-                      <Route path="edit/:id" element={<ProductEdit />} />
-                      <Route path="show/:id" element={<ProductShow />} />
-                    </Route>
-                    <Route path="*" element={<ErrorComponent />} />
-                  </Route>
-                </Routes>
-
+                  </Routes>
+                </Authenticated>
                 <RefineKbar />
                 <UnsavedChangesNotifier />
                 <DocumentTitleHandler />

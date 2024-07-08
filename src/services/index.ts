@@ -1,9 +1,7 @@
-import axios from "axios";
+import axiosInstance from "../shared/network";
 
 export const createSaleFromInvoice = async (url: string) => {
-  const endpointUrl = `${import.meta.env.VITE_API_URL}/sales`;
-  console.log("createSaleFromInvoice", endpointUrl, url);
-  const response = await axios.post(endpointUrl, {
+  const response = await axiosInstance.post("/sales", {
     url,
   });
   return response;

@@ -1,25 +1,9 @@
 import { CrudSort, DataProvider } from "@refinedev/core";
-import axios from "axios";
-import { ACCESS_TOKEN_KEY } from "../shared/constants";
-
+import axiosInstance from "../shared/network";
 /**
  * Check out the Data Provider documentation for detailed information
  * https://refine.dev/docs/api-reference/core/providers/data-provider/
  **/
-
-console.log(import.meta.env.VITE_API_URL);
-if (!import.meta.env.VITE_API_URL) {
-  throw new Error("VITE_API_URL is not set");
-}
-const apiUrl: string = import.meta.env.VITE_API_URL;
-const getAxiosConfig = () => {
-  return {
-    baseURL: apiUrl,
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN_KEY)}`,
-    },
-  };
-};
 
 export const productDbDataProvider = (): DataProvider => ({
   getList: async ({ resource, pagination, filters, sorters, meta }) => {
@@ -39,8 +23,7 @@ export const productDbDataProvider = (): DataProvider => ({
       return `${sorter.field}:${sorter.order}`;
     });
 
-    await axios.get(`/${resource}`, {
-      ...getAxiosConfig(),
+    await axiosInstance.get(`/${resource}`, {
       params: {
         limit: pagination?.pageSize,
         page: pagination?.current,
@@ -49,8 +32,7 @@ export const productDbDataProvider = (): DataProvider => ({
       },
     });
 
-    const response = await axios.get(`/${resource}`, {
-      ...getAxiosConfig(),
+    const response = await axiosInstance.get(`/${resource}`, {
       params: {
         limit: pagination?.pageSize,
         page: pagination?.current,
@@ -107,13 +89,9 @@ export const productDbDataProvider = (): DataProvider => ({
       meta,
     });
 
-    const response = await axios.patch(
-      `/${resource}/${id}`,
-      {
-        ...variables,
-      },
-      getAxiosConfig()
-    );
+    const response = await axiosInstance.patch(`/${resource}/${id}`, {
+      ...variables,
+    });
 
     if (response.status === 200) {
       return {
@@ -133,7 +111,7 @@ export const productDbDataProvider = (): DataProvider => ({
       meta,
     });
 
-    const result = await axios.get(`/${resource}/${id}`, getAxiosConfig());
+    const result = await axiosInstance.get(`/${resource}/${id}`);
     if (result.status === 200) {
       return {
         data: result.data.result,
@@ -161,7 +139,7 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   getApiUrl: () => {
-    return apiUrl;
+    return import.meta.env.VITE_API_URL;
   },
 
   custom: async ({

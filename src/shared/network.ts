@@ -1,5 +1,10 @@
 import axios from "axios";
-import { ACCESS_TOKEN_KEY } from "../shared/constants";
+import {
+  getAccessToken,
+  getRefreshToken,
+  isTokenAboutToExpire,
+  persistAuthData,
+} from "./storage";
 
 console.log(import.meta.env.VITE_API_URL);
 if (!import.meta.env.VITE_API_URL) {
@@ -7,14 +12,33 @@ if (!import.meta.env.VITE_API_URL) {
 }
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
-axiosInstance.interceptors.request.use(function (config) {
-    config.headers.Authorization = `Bearer ${localStorage.getItem(ACCESS_TOKEN_KEY)}`
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    // check if the token is about to expire and refresh it
+    if (isTokenAboutToExpire()) {
+      const apiUrl: string = import.meta.env.VITE_API_URL;
+      const refreshToken = getRefreshToken();
+      const response = await fetch(`${apiUrl}/auth/refresh`, {
+        method: "POST",
+        body: JSON.stringify({ refreshToken }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      persistAuthData(data);
+    }
+
+    config.headers.Authorization = `Bearer ${getAccessToken()}`;
     return config;
-  }, function (error) {
+  },
+  (error) => {
     return Promise.reject(error);
-  });
+  }
+);
 
 export default axiosInstance;

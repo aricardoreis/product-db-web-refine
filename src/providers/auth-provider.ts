@@ -1,9 +1,9 @@
 import { AuthProvider } from "@refinedev/core";
-import { ACCESS_TOKEN_KEY } from "../shared/constants";
+import { clearAuthData, getAccessToken, persistAuthData } from "../shared/storage";
 
 export const authProvider: AuthProvider = {
   check: async () => {
-    const token = localStorage.getItem(ACCESS_TOKEN_KEY);
+    const token = getAccessToken();
 
     return { authenticated: Boolean(token) };
   },
@@ -21,7 +21,8 @@ export const authProvider: AuthProvider = {
     const data = await response.json();
     console.log(`login response data: ${JSON.stringify(data)}`);
     if (data.access_token) {
-      localStorage.setItem(ACCESS_TOKEN_KEY, data.access_token);
+      persistAuthData(data);
+      console.log(`EXPIRES_AT: ${new Date(Number(data.expires_at) * 1000)}`);
       return { success: true };
     }
 
@@ -34,7 +35,7 @@ export const authProvider: AuthProvider = {
     };
   },
   logout: async () => {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    clearAuthData();
 
     return { success: true };
   },

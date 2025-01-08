@@ -14,14 +14,16 @@ function getExpiresAt() {
 
 export function isTokenAboutToExpire() {
   const expiresAt = Number(getExpiresAt()) * 1000;
+  console.log('expiresAt:', new Date(expiresAt));
+  console.log('now:', new Date(Date.now()));
   return Date.now() + 60 * 1000 > Number(expiresAt);
 }
 
 export function persistAuthData(data: any) {
   if (!data.access_token) return;
-  localStorage.setItem("my_access_token", data.access_token);
-  localStorage.setItem("my_refresh_token", data.refresh_token);
-  localStorage.setItem("expires_at", String(data.expires_at));
+  localStorage.setItem(ACCESS_TOKEN_KEY, data.access_token);
+  localStorage.setItem(REFRESH_TOKEN, data.refresh_token);
+  localStorage.setItem(EXPIRES_AT, String(data.expires_at));
 }
 
 export function clearAuthData() {

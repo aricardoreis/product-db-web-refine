@@ -20,6 +20,7 @@ axiosInstance.interceptors.request.use(
     // check if the token is about to expire and refresh it
     const refreshToken = getRefreshToken();
     if (refreshToken && isTokenAboutToExpire()) {
+      console.log('refreshing token now...');
       const apiUrl: string = import.meta.env.VITE_API_URL;
       const response = await fetch(`${apiUrl}/auth/refresh`, {
         method: "POST",

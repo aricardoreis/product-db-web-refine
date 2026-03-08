@@ -19,7 +19,7 @@ import routerBindings, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { ProductEdit, ProductList, ProductShow } from "./pages/products";
@@ -42,6 +42,14 @@ function App() {
                 dataProvider={productDbDataProvider()}
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
+                accessControlProvider={{
+                  can: async ({ resource }) => {
+                    if (resource === "dashboard") {
+                      return { can: false };
+                    }
+                    return { can: true };
+                  },
+                }}
                 resources={[
                   {
                     name: "sales",

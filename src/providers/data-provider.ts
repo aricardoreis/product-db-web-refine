@@ -26,7 +26,7 @@ export const productDbDataProvider = (): DataProvider => ({
     await axiosInstance.get(`/${resource}`, {
       params: {
         limit: pagination?.pageSize,
-        page: pagination?.current,
+        page: pagination?.currentPage,
         keyword: keyword,
         sort: sortField?.length ? sortField[0] : undefined,
       },
@@ -35,7 +35,7 @@ export const productDbDataProvider = (): DataProvider => ({
     const response = await axiosInstance.get(`/${resource}`, {
       params: {
         limit: pagination?.pageSize,
-        page: pagination?.current,
+        page: pagination?.currentPage,
         keyword: keyword,
         sort: sortField?.length ? sortField[0] : undefined,
       },

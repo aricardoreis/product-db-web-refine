@@ -5,8 +5,8 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import {
   ErrorComponent,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
-  ThemedTitleV2,
+  ThemedLayout,
+  ThemedTitle,
   useNotificationProvider,
 } from "@refinedev/mui";
 
@@ -18,8 +18,8 @@ import routerBindings, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+} from "@refinedev/react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { ProductEdit, ProductList, ProductShow } from "./pages/products";
@@ -42,6 +42,14 @@ function App() {
                 dataProvider={productDbDataProvider()}
                 notificationProvider={useNotificationProvider}
                 routerProvider={routerBindings}
+                accessControlProvider={{
+                  can: async ({ resource }) => {
+                    if (resource === "dashboard") {
+                      return { can: false };
+                    }
+                    return { can: true };
+                  },
+                }}
                 resources={[
                   {
                     name: "sales",
@@ -64,7 +72,7 @@ function App() {
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
-                  useNewQueryKeys: true,
+
                   projectId: "t0Tb4t-eqUpAQ-clICbo",
                 }}
               >
@@ -75,9 +83,9 @@ function App() {
                   <Routes>
                     <Route
                       element={
-                        <ThemedLayoutV2
+                        <ThemedLayout
                           Title={({ collapsed }) => (
-                            <ThemedTitleV2
+                            <ThemedTitle
                               collapsed={collapsed}
                               icon={
                                 collapsed ? (
@@ -92,7 +100,7 @@ function App() {
                           Header={() => <Header sticky />}
                         >
                           <Outlet />
-                        </ThemedLayoutV2>
+                        </ThemedLayout>
                       }
                     >
                       <Route

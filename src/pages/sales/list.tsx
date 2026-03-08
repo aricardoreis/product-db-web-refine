@@ -23,8 +23,8 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 100,
         filterable: false,
         sortable: false,
-        valueFormatter: (params) =>
-          new Intl.DateTimeFormat("pt-BR").format(new Date(params?.value)),
+        valueFormatter: (value: string) =>
+          new Intl.DateTimeFormat("pt-BR").format(new Date(value)),
       },
       {
         field: "total",
@@ -34,11 +34,11 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 100,
         filterable: false,
         sortable: false,
-        valueFormatter: (params) =>
+        valueFormatter: (value: number) =>
           new Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }).format(params?.value),
+          }).format(value),
       },
       {
         field: "actions",

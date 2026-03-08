@@ -7,10 +7,10 @@ import {
 } from "@refinedev/mui";
 
 export const CategoryShow: React.FC<IResourceComponentsProps> = () => {
-  const { queryResult } = useShow({});
-  const { data, isLoading } = queryResult;
+  const { query, result } = useShow({});
+  const { isLoading } = query;
 
-  const record = data?.data;
+  const record = result;
 
   return (
     <Show isLoading={isLoading}>

@@ -10,10 +10,10 @@ import { currencyFormatter } from "../../shared/currency-formatter";
 import { formatDate } from "../../shared/date-formatter";
 
 export const ProductShow: React.FC<IResourceComponentsProps> = () => {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
+  const { query, result } = useShow();
+  const { isLoading } = query;
 
-  const record = data?.data;
+  const record = result;
 
   return (
     <Show isLoading={isLoading}>

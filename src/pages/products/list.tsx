@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef, getGridStringOperators } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 import {
   List,
@@ -8,10 +8,6 @@ import {
 } from "@refinedev/mui";
 import React from "react";
 import { currencyFormatter } from "../../shared/currency-formatter";
-
-const onlyContainsfilterOperators = getGridStringOperators().filter(({ value }) =>
-  ['contains' ].includes(value),
-);
 
 export const ProductList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({});
@@ -29,7 +25,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Name",
         minWidth: 200,
-        filterOperators: onlyContainsfilterOperators,
+        filterable: true,
       },
       {
         field: "priceHistory",
@@ -39,13 +35,13 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 100,
         filterable: false,
         sortable: false,
-        valueGetter: (params) => {
-          if (params.value && params.value.length > 0) {
-            return params.value[0].value;
+        valueGetter: (value: any[]) => {
+          if (value && value.length > 0) {
+            return value[0].value;
           }
           return 0;
         },
-        valueFormatter: (params) => currencyFormatter.format(params?.value),
+        valueFormatter: (value: number) => currencyFormatter.format(value),
       },
       {
         field: "actions",

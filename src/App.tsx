@@ -5,8 +5,8 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import {
   ErrorComponent,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
-  ThemedTitleV2,
+  ThemedLayout,
+  ThemedTitle,
   useNotificationProvider,
 } from "@refinedev/mui";
 
@@ -18,7 +18,7 @@ import routerBindings, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router-v6";
+} from "@refinedev/react-router";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
@@ -64,7 +64,7 @@ function App() {
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
-                  useNewQueryKeys: true,
+
                   projectId: "t0Tb4t-eqUpAQ-clICbo",
                 }}
               >
@@ -75,9 +75,9 @@ function App() {
                   <Routes>
                     <Route
                       element={
-                        <ThemedLayoutV2
+                        <ThemedLayout
                           Title={({ collapsed }) => (
-                            <ThemedTitleV2
+                            <ThemedTitle
                               collapsed={collapsed}
                               icon={
                                 collapsed ? (
@@ -92,7 +92,7 @@ function App() {
                           Header={() => <Header sticky />}
                         >
                           <Outlet />
-                        </ThemedLayoutV2>
+                        </ThemedLayout>
                       }
                     >
                       <Route

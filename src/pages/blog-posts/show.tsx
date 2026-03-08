@@ -9,13 +9,13 @@ import {
 } from "@refinedev/mui";
 
 export const BlogPostShow: React.FC<IResourceComponentsProps> = () => {
-  const { queryResult } = useShow({});
+  const { query, result } = useShow({});
 
-  const { data, isLoading } = queryResult;
+  const { isLoading } = query;
 
-  const record = data?.data;
+  const record = result;
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useOne({
+  const { result: categoryData, query: categoryQuery } = useOne({
     resource: "categories",
     id: record?.category?.id || "",
     queryOptions: {
@@ -44,7 +44,7 @@ export const BlogPostShow: React.FC<IResourceComponentsProps> = () => {
         <Typography variant="body1" fontWeight="bold">
           {"Category"}
         </Typography>
-        {categoryIsLoading ? <>Loading...</> : <>{categoryData?.data?.title}</>}
+        {categoryQuery.isLoading ? <>Loading...</> : <>{categoryData?.title}</>}
         <Typography variant="body1" fontWeight="bold">
           {"Status"}
         </Typography>

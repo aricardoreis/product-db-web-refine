@@ -16,7 +16,7 @@ export const BlogPostList: React.FC<IResourceComponentsProps> = () => {
     syncWithLocation: true,
   });
 
-  const { data: categoryData, isLoading: categoryIsLoading } = useMany({
+  const { result: categoryResult, query: categoryQuery } = useMany({
     resource: "categories",
     ids:
       dataGridProps?.rows
@@ -56,15 +56,14 @@ export const BlogPostList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Category",
         minWidth: 300,
-        valueGetter: ({ row }) => {
-          const value = row?.category;
-          return value;
+        valueGetter: (_value: any, row: any) => {
+          return row?.category;
         },
         renderCell: function render({ value }) {
-          return categoryIsLoading ? (
+          return categoryQuery.isLoading ? (
             <>Loading...</>
           ) : (
-            categoryData?.data?.find((item) => item.id === value?.id)?.title
+            categoryResult?.data?.find((item) => item.id === value?.id)?.title
           );
         },
       },
@@ -101,7 +100,7 @@ export const BlogPostList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 80,
       },
     ],
-    [categoryData]
+    [categoryResult]
   );
 
   return (

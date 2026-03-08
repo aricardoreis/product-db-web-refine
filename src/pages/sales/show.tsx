@@ -24,10 +24,10 @@ const ProductItem = (item: any) => {
 };
 
 export const SaleShow: React.FC<IResourceComponentsProps> = () => {
-  const { queryResult } = useShow();
-  const { data, isLoading } = queryResult;
+  const { query, result } = useShow();
+  const { isLoading } = query;
 
-  const record = data?.data;
+  const record = result;
 
   let productIndex = 1;
   return (

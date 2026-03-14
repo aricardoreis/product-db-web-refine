@@ -1,48 +1,49 @@
-# refine-mui
+# product-db-web-refine
 
-<div align="center" style="margin: 30px;">
-    <a href="https://refine.dev">
-    <img alt="refine logo" src="https://refine.ams3.cdn.digitaloceanspaces.com/readme/refine-readme-banner.png">
-    </a>
-</div>
-<br/>
+Frontend web application for Product-DB. Scan NF-e QR codes, browse sales, and track product price history.
 
-This [Refine](https://github.com/refinedev/refine) project was generated with [create refine-app](https://github.com/refinedev/refine/tree/master/packages/create-refine-app).
+Part of the [Product-DB](../README.md) ecosystem.
+
+## Tech Stack
+
+- **React 18** — UI library
+- **Refine** — Data-driven app framework (CRUD, auth, routing)
+- **Material UI** — Component library
+- **MUI X DataGrid** — Table/grid component
+- **Vite** — Build tool
+- **react-zxing** — QR code / barcode scanning
 
 ## Getting Started
 
-A React Framework for building internal tools, admin panels, dashboards & B2B apps with unmatched flexibility ✨
-
-Refine's hooks and components simplifies the development process and eliminates the repetitive tasks by providing industry-standard solutions for crucial aspects of a project, including authentication, access control, routing, networking, state management, and i18n.
-
-## Available Scripts
-
-### Running the development server.
-
 ```bash
-    npm run dev
+npm install
+npm run dev
 ```
 
-### Building for production.
+The app starts on port `3003`.
 
-```bash
-    npm run build
+### Environment Variables
+
+Create a `.env` file:
+```
+VITE_API_URL=http://localhost:3000
+VITE_DISABLE_AUTH=true
 ```
 
-### Running the production server.
+Set `VITE_DISABLE_AUTH=true` for local development without authentication.
 
-```bash
-    npm run start
-```
+## Features
 
-## Learn More
+- **QR Code Scanner**: Header button opens the camera to scan NF-e QR codes. On scan, creates a new sale via the backend API.
+- **Sales List**: Paginated list showing date and total (BRL currency).
+- **Sale Details**: Shows store name, date, all products with prices, and total.
+- **Products List**: Paginated, searchable list showing product name and latest price.
+- **Product Details**: Shows product info and full price history with dates.
+- **Product Edit**: Update product name.
+- **Dark/Light Mode**: Theme toggle persisted in localStorage.
+- **Authentication**: Supabase JWT with automatic token refresh.
 
-To learn more about **Refine**, please check out the [Documentation](https://refine.dev/docs)
+## Deployment
 
-- **REST Data Provider** [Docs](https://refine.dev/docs/core/providers/data-provider/#overview)
-- **Material UI** [Docs](https://refine.dev/docs/ui-frameworks/mui/tutorial/)
-- **React Router** [Docs](https://refine.dev/docs/core/providers/router-provider/)
-
-## License
-
-MIT
+- **GitHub Actions**: Build → SCP to Raspberry Pi → PM2 reload
+- **Docker**: Multi-stage Dockerfile available for containerized deployment

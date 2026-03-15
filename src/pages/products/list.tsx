@@ -1,4 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { InputAdornment, TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import { IResourceComponentsProps } from "@refinedev/core";
 import {
   List,
@@ -10,7 +12,15 @@ import React from "react";
 import { currencyFormatter } from "../../shared/currency-formatter";
 
 export const ProductList: React.FC<IResourceComponentsProps> = () => {
-  const { dataGridProps } = useDataGrid({});
+  const { dataGridProps, setFilters } = useDataGrid({});
+  const timerRef = React.useRef<ReturnType<typeof setTimeout>>();
+
+  const handleSearch = (value: string) => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setFilters([{ field: "name", operator: "contains", value: value || undefined }]);
+    }, 400);
+  };
 
   const columns = React.useMemo<GridColDef[]>(
     () => [
@@ -25,7 +35,7 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Name",
         minWidth: 200,
-        filterable: true,
+        filterable: false,
       },
       {
         field: "priceHistory",
@@ -66,6 +76,19 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <List>
+      <TextField
+        placeholder="Search by name..."
+        size="small"
+        sx={{ mb: 2 }}
+        onChange={(e) => handleSearch(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
       <DataGrid {...dataGridProps} columns={columns} autoHeight />
     </List>
   );

@@ -24,6 +24,7 @@ import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { ProductEdit, ProductList, ProductShow } from "./pages/products";
 import { SaleList, SaleShow } from "./pages/sales";
+import { DuplicateList } from "./pages/duplicates";
 import { productDbDataProvider } from "./providers/data-provider";
 import { authProvider } from "./providers/auth-provider";
 import { Login } from "./pages/login";
@@ -66,6 +67,14 @@ function App() {
                     show: "/products/show/:id",
                     meta: {
                       canDelete: false,
+                    },
+                  },
+                  {
+                    name: "duplicates",
+                    list: "/duplicates",
+                    meta: {
+                      canDelete: false,
+                      label: "Duplicates",
                     },
                   },
                 ]}
@@ -115,6 +124,9 @@ function App() {
                         <Route index element={<ProductList />} />
                         <Route path="edit/:id" element={<ProductEdit />} />
                         <Route path="show/:id" element={<ProductShow />} />
+                      </Route>
+                      <Route path="/duplicates">
+                        <Route index element={<DuplicateList />} />
                       </Route>
                       <Route path="*" element={<ErrorComponent />} />
                     </Route>

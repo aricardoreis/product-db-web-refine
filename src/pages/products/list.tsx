@@ -47,7 +47,10 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         sortable: false,
         valueGetter: (value: any[]) => {
           if (value && value.length > 0) {
-            return value[0].value;
+            const sorted = [...value].sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+            );
+            return sorted[0].value;
           }
           return 0;
         },

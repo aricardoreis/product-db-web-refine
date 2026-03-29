@@ -83,12 +83,12 @@ export const DuplicateList: React.FC = () => {
   };
 
   const handleSearch = async () => {
-    if (!search.trim()) return;
     setLoading(true);
     setSearched(true);
     try {
+      const params = search.trim() ? { search: search.trim() } : {};
       const { data } = await axiosInstance.get("/products/duplicates", {
-        params: { search: search.trim() },
+        params,
       });
       const result: Cluster[] = data.result?.clusters ?? [];
       setClusters(result);

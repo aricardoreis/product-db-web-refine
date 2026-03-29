@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import axiosInstance from "../../shared/network";
+import { currencyFormatter } from "../../shared/currency-formatter";
 
 interface DuplicateProduct {
   id: string;
@@ -26,6 +27,7 @@ interface DuplicateProduct {
   code: string;
   isEan: boolean;
   priceHistoryCount: number;
+  latestPrice: number | null;
 }
 
 interface Cluster {
@@ -51,12 +53,30 @@ export const DuplicateList: React.FC = () => {
     null,
   );
 
+  const findLargestGroup = (products: DuplicateProduct[]) => {
+    const groups = new Map<string, DuplicateProduct[]>();
+    for (const p of products) {
+      const key = `${p.name.toLowerCase()}|${p.code}|${p.isEan}`;
+      const group = groups.get(key) ?? [];
+      group.push(p);
+      groups.set(key, group);
+    }
+    let largest: DuplicateProduct[] = [];
+    for (const group of groups.values()) {
+      if (group.length > largest.length) {
+        largest = group;
+      }
+    }
+    return largest;
+  };
+
   const initClusterStates = (clusters: Cluster[]) => {
     const states = new Map<number, ClusterState>();
     for (const cluster of clusters) {
+      const largest = findLargestGroup(cluster.products);
       states.set(cluster.clusterId, {
-        checked: new Set(cluster.products.map((p) => p.id)),
-        canonicalId: cluster.products[0]?.id ?? "",
+        checked: new Set(largest.map((p) => p.id)),
+        canonicalId: largest[0]?.id ?? "",
       });
     }
     setClusterStates(states);
@@ -250,6 +270,7 @@ export const DuplicateList: React.FC = () => {
                     <TableCell>Name</TableCell>
                     <TableCell>Code</TableCell>
                     <TableCell>EAN</TableCell>
+                    <TableCell align="right">Latest Price</TableCell>
                     <TableCell align="right">Price History</TableCell>
                   </TableRow>
                 </TableHead>
@@ -280,6 +301,11 @@ export const DuplicateList: React.FC = () => {
                         <TableCell>{product.name}</TableCell>
                         <TableCell>{product.code}</TableCell>
                         <TableCell>{product.isEan ? "Yes" : "No"}</TableCell>
+                        <TableCell align="right">
+                          {product.latestPrice != null
+                            ? currencyFormatter.format(product.latestPrice)
+                            : "—"}
+                        </TableCell>
                         <TableCell align="right">
                           {product.priceHistoryCount}
                         </TableCell>

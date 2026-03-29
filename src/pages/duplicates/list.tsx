@@ -130,6 +130,30 @@ export const DuplicateList: React.FC = () => {
     }
   };
 
+  const toggleAll = (clusterId: number, products: DuplicateProduct[]) => {
+    setClusterStates((prev) => {
+      const next = new Map(prev);
+      const state = { ...next.get(clusterId)! };
+      const allChecked = products.every((p) => state.checked.has(p.id));
+      if (allChecked) {
+        state.checked = new Set();
+        state.canonicalId = "";
+      } else {
+        state.checked = new Set(products.map((p) => p.id));
+        if (!state.canonicalId) {
+          state.canonicalId = products[0]?.id ?? "";
+        }
+      }
+      next.set(clusterId, state);
+      return next;
+    });
+  };
+
+  const sortedProducts = (products: DuplicateProduct[]) =>
+    [...products].sort(
+      (a, b) => a.name.localeCompare(b.name) || a.code.localeCompare(b.code),
+    );
+
   const canMerge = (clusterId: number) => {
     const state = clusterStates.get(clusterId);
     if (!state) return false;
@@ -205,7 +229,23 @@ export const DuplicateList: React.FC = () => {
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell padding="checkbox">Include</TableCell>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={
+                          cluster.products.length > 0 &&
+                          cluster.products.every((p) =>
+                            state.checked.has(p.id),
+                          )
+                        }
+                        indeterminate={
+                          state.checked.size > 0 &&
+                          state.checked.size < cluster.products.length
+                        }
+                        onChange={() =>
+                          toggleAll(cluster.clusterId, cluster.products)
+                        }
+                      />
+                    </TableCell>
                     <TableCell padding="checkbox">Canonical</TableCell>
                     <TableCell>Name</TableCell>
                     <TableCell>Code</TableCell>
@@ -214,7 +254,7 @@ export const DuplicateList: React.FC = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {cluster.products.map((product) => {
+                  {sortedProducts(cluster.products).map((product) => {
                     const isChecked = state.checked.has(product.id);
                     const isCanonical = state.canonicalId === product.id;
 

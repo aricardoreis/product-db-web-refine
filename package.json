@@ -45,7 +45,10 @@
     "dev:host": "refine dev --port 3003 --host",
     "build": "tsc && refine build",
     "preview": "refine start",
-    "refine": "refine"
+    "refine": "refine",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx}\""
   },
   "browserslist": {
     "production": [

@@ -1,4 +1,4 @@
-import { useZxing } from "react-zxing";
+import { useZxing } from 'react-zxing';
 
 export const BarcodeScanner = (props) => {
   const { ref } = useZxing({

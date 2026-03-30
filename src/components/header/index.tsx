@@ -1,19 +1,19 @@
-import DarkModeOutlined from "@mui/icons-material/DarkModeOutlined";
-import LightModeOutlined from "@mui/icons-material/LightModeOutlined";
-import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import { useGetIdentity, useNotification } from "@refinedev/core";
-import { HamburgerMenu, RefineThemedLayoutHeaderProps } from "@refinedev/mui";
-import React, { useContext, useState } from "react";
-import { ColorModeContext } from "../../contexts/color-mode";
-import { CloseOutlined, QrCodeScannerOutlined } from "@mui/icons-material";
-import { BarcodeScanner } from "../barcode-scanner";
-import { CircularProgress } from "@mui/material";
-import { createSaleFromInvoice } from "../../services";
+import DarkModeOutlined from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlined from '@mui/icons-material/LightModeOutlined';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { useGetIdentity, useNotification } from '@refinedev/core';
+import { HamburgerMenu, RefineThemedLayoutHeaderProps } from '@refinedev/mui';
+import React, { useContext, useState } from 'react';
+import { ColorModeContext } from '../../contexts/color-mode';
+import { CloseOutlined, QrCodeScannerOutlined } from '@mui/icons-material';
+import { BarcodeScanner } from '../barcode-scanner';
+import { CircularProgress } from '@mui/material';
+import { createSaleFromInvoice } from '../../services';
 
 type IUser = {
   id: number;
@@ -39,19 +39,19 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
     setIsLoading(true);
     createSaleFromInvoice(result)
       .then((data) => {
-        console.log("success creating invoice", data);
+        console.log('success creating invoice', data);
         open?.({
-          type: "success",
-          message: "Sale created successfully",
-          key: "sale-creation-success",
+          type: 'success',
+          message: 'Sale created successfully',
+          key: 'sale-creation-success',
         });
       })
       .catch((error) => {
-        console.log("error creating invoice", error);
+        console.log('error creating invoice', error);
         open?.({
-          type: "error",
-          message: "Error creating sale",
-          key: "sale-creation-error",
+          type: 'error',
+          message: 'Error creating sale',
+          key: 'sale-creation-error',
         });
       })
       .finally(() => {
@@ -60,7 +60,7 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
   };
 
   return (
-    <AppBar position={sticky ? "sticky" : "relative"}>
+    <AppBar position={sticky ? 'sticky' : 'relative'}>
       {mounted ? <BarcodeScanner onDecodeResult={onDecodeResult} /> : null}
       <Toolbar>
         <Stack
@@ -82,7 +82,11 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
                 setMounted(!mounted);
               }}
             >
-              {mounted ? <CloseOutlined /> : !isLoading && <QrCodeScannerOutlined />}
+              {mounted ? (
+                <CloseOutlined />
+              ) : (
+                !isLoading && <QrCodeScannerOutlined />
+              )}
             </IconButton>
             {isLoading ? <CircularProgress color="inherit" size={24} /> : null}
 
@@ -92,7 +96,7 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
                 setMode();
               }}
             >
-              {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
+              {mode === 'dark' ? <LightModeOutlined /> : <DarkModeOutlined />}
             </IconButton>
 
             {(user?.avatar || user?.name) && (
@@ -106,8 +110,8 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
                   <Typography
                     sx={{
                       display: {
-                        xs: "none",
-                        sm: "inline-block",
+                        xs: 'none',
+                        sm: 'inline-block',
                       },
                     }}
                     variant="subtitle2"

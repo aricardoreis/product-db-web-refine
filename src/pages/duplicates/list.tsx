@@ -1,6 +1,6 @@
-import React from "react";
-import { useNotification } from "@refinedev/core";
-import { List } from "@refinedev/mui";
+import React from 'react';
+import { useNotification } from '@refinedev/core';
+import { List } from '@refinedev/mui';
 import {
   Box,
   Button,
@@ -16,10 +16,10 @@ import {
   TableRow,
   TextField,
   Typography,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import axiosInstance from "../../shared/network";
-import { currencyFormatter } from "../../shared/currency-formatter";
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import axiosInstance from '../../shared/network';
+import { currencyFormatter } from '../../shared/currency-formatter';
 
 interface DuplicateProduct {
   id: string;
@@ -42,7 +42,7 @@ interface ClusterState {
 
 export const DuplicateList: React.FC = () => {
   const { open } = useNotification();
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = React.useState('');
   const [clusters, setClusters] = React.useState<Cluster[]>([]);
   const [clusterStates, setClusterStates] = React.useState<
     Map<number, ClusterState>
@@ -76,7 +76,7 @@ export const DuplicateList: React.FC = () => {
       const largest = findLargestGroup(cluster.products);
       states.set(cluster.clusterId, {
         checked: new Set(largest.map((p) => p.id)),
-        canonicalId: largest[0]?.id ?? "",
+        canonicalId: largest[0]?.id ?? '',
       });
     }
     setClusterStates(states);
@@ -87,14 +87,14 @@ export const DuplicateList: React.FC = () => {
     setSearched(true);
     try {
       const params = search.trim() ? { search: search.trim() } : {};
-      const { data } = await axiosInstance.get("/products/duplicates", {
+      const { data } = await axiosInstance.get('/products/duplicates', {
         params,
       });
       const result: Cluster[] = data.result?.clusters ?? [];
       setClusters(result);
       initClusterStates(result);
     } catch {
-      open?.({ type: "error", message: "Failed to fetch duplicates" });
+      open?.({ type: 'error', message: 'Failed to fetch duplicates' });
     } finally {
       setLoading(false);
     }
@@ -108,7 +108,7 @@ export const DuplicateList: React.FC = () => {
       if (checked.has(productId)) {
         checked.delete(productId);
         if (state.canonicalId === productId) {
-          state.canonicalId = [...checked][0] ?? "";
+          state.canonicalId = [...checked][0] ?? '';
         }
       } else {
         checked.add(productId);
@@ -137,14 +137,14 @@ export const DuplicateList: React.FC = () => {
 
     setMergingCluster(clusterId);
     try {
-      await axiosInstance.post("/products/merge", {
+      await axiosInstance.post('/products/merge', {
         canonicalId: Number(state.canonicalId),
         duplicateIds,
       });
       setClusters((prev) => prev.filter((c) => c.clusterId !== clusterId));
-      open?.({ type: "success", message: "Products merged successfully" });
+      open?.({ type: 'success', message: 'Products merged successfully' });
     } catch {
-      open?.({ type: "error", message: "Failed to merge products" });
+      open?.({ type: 'error', message: 'Failed to merge products' });
     } finally {
       setMergingCluster(null);
     }
@@ -157,11 +157,11 @@ export const DuplicateList: React.FC = () => {
       const allChecked = products.every((p) => state.checked.has(p.id));
       if (allChecked) {
         state.checked = new Set();
-        state.canonicalId = "";
+        state.canonicalId = '';
       } else {
         state.checked = new Set(products.map((p) => p.id));
         if (!state.canonicalId) {
-          state.canonicalId = products[0]?.id ?? "";
+          state.canonicalId = products[0]?.id ?? '';
         }
       }
       next.set(clusterId, state);
@@ -177,18 +177,18 @@ export const DuplicateList: React.FC = () => {
   const canMerge = (clusterId: number) => {
     const state = clusterStates.get(clusterId);
     if (!state) return false;
-    return state.checked.size >= 2 && state.canonicalId !== "";
+    return state.checked.size >= 2 && state.canonicalId !== '';
   };
 
   return (
     <List>
-      <Box sx={{ display: "flex", gap: 1, mb: 3 }}>
+      <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
         <TextField
           placeholder="Search for duplicates..."
           size="small"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           sx={{ minWidth: 300 }}
         />
         <Button
@@ -202,7 +202,7 @@ export const DuplicateList: React.FC = () => {
       </Box>
 
       {loading && (
-        <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
           <CircularProgress />
         </Box>
       )}
@@ -223,14 +223,14 @@ export const DuplicateList: React.FC = () => {
             <CardContent>
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                   mb: 1,
                 }}
               >
                 <Typography variant="h6">
-                  Cluster {cluster.clusterId} ({cluster.products.length}{" "}
+                  Cluster {cluster.clusterId} ({cluster.products.length}{' '}
                   products)
                 </Typography>
                 <Button
@@ -253,9 +253,7 @@ export const DuplicateList: React.FC = () => {
                       <Checkbox
                         checked={
                           cluster.products.length > 0 &&
-                          cluster.products.every((p) =>
-                            state.checked.has(p.id),
-                          )
+                          cluster.products.every((p) => state.checked.has(p.id))
                         }
                         indeterminate={
                           state.checked.size > 0 &&
@@ -300,11 +298,11 @@ export const DuplicateList: React.FC = () => {
                         </TableCell>
                         <TableCell>{product.name}</TableCell>
                         <TableCell>{product.code}</TableCell>
-                        <TableCell>{product.isEan ? "Yes" : "No"}</TableCell>
+                        <TableCell>{product.isEan ? 'Yes' : 'No'}</TableCell>
                         <TableCell align="right">
                           {product.latestPrice != null
                             ? currencyFormatter.format(product.latestPrice)
-                            : "—"}
+                            : '—'}
                         </TableCell>
                         <TableCell align="right">
                           {product.priceHistoryCount}

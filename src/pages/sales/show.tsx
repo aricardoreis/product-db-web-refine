@@ -1,8 +1,8 @@
-import { useShow, IResourceComponentsProps } from "@refinedev/core";
-import { Show, TextFieldComponent as TextField } from "@refinedev/mui";
-import { Typography, Stack, Grid, Box } from "@mui/material";
-import { currencyFormatter } from "../../shared/currency-formatter";
-import { formatDate } from "../../shared/date-formatter";
+import { useShow, IResourceComponentsProps } from '@refinedev/core';
+import { Show, TextFieldComponent as TextField } from '@refinedev/mui';
+import { Typography, Stack, Grid, Box } from '@mui/material';
+import { currencyFormatter } from '../../shared/currency-formatter';
+import { formatDate } from '../../shared/date-formatter';
 
 const ProductItem = (item: any) => {
   return (
@@ -36,7 +36,7 @@ export const SaleShow: React.FC<IResourceComponentsProps> = () => {
         <Typography variant="body1" fontWeight="bold">
           Id
         </Typography>
-        <TextField value={record?.id ?? ""} />
+        <TextField value={record?.id ?? ''} />
         <Typography variant="body1" fontWeight="bold">
           Store
         </Typography>

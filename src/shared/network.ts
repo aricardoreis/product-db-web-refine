@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   getAccessToken,
   getRefreshToken,
   isTokenAboutToExpire,
   persistAuthData,
-} from "./storage";
+} from './storage';
 
 console.log(import.meta.env.VITE_API_URL);
 if (!import.meta.env.VITE_API_URL) {
-  throw new Error("VITE_API_URL is not set");
+  throw new Error('VITE_API_URL is not set');
 }
 
 const axiosInstance = axios.create({
@@ -26,10 +26,10 @@ axiosInstance.interceptors.request.use(
           console.log('refreshing token now...');
           const apiUrl: string = import.meta.env.VITE_API_URL;
           const response = await fetch(`${apiUrl}/auth/refresh`, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify({ refreshToken }),
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           });
 
@@ -47,7 +47,7 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;

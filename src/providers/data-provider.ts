@@ -1,5 +1,5 @@
-import { CrudSort, DataProvider } from "@refinedev/core";
-import axiosInstance from "../shared/network";
+import { CrudSort, DataProvider } from '@refinedev/core';
+import axiosInstance from '../shared/network';
 /**
  * Check out the Data Provider documentation for detailed information
  * https://refine.dev/docs/api-reference/core/providers/data-provider/
@@ -7,7 +7,7 @@ import axiosInstance from "../shared/network";
 
 export const productDbDataProvider = (): DataProvider => ({
   getList: async ({ resource, pagination, filters, sorters, meta }) => {
-    console.log("getList", {
+    console.log('getList', {
       resource,
       pagination,
       filters,
@@ -16,7 +16,7 @@ export const productDbDataProvider = (): DataProvider => ({
     });
 
     const keyword = filters?.find((filter: any) => {
-      return filter.field === "name";
+      return filter.field === 'name';
     })?.value;
 
     const sortField = sorters?.map((sorter: CrudSort) => {
@@ -46,7 +46,7 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   getMany: async ({ resource, ids, meta }) => {
-    console.log("getMany", {
+    console.log('getMany', {
       resource,
       ids,
       meta,
@@ -61,7 +61,7 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   create: async ({ resource, variables, meta }) => {
-    console.log("create", {
+    console.log('create', {
       resource,
       variables,
       meta,
@@ -73,7 +73,7 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   update: async ({ resource, id, variables, meta }) => {
-    console.log("update", {
+    console.log('update', {
       resource,
       id,
       variables,
@@ -96,7 +96,7 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   getOne: async ({ resource, id, meta }) => {
-    console.log("getOne", {
+    console.log('getOne', {
       resource,
       id,
       meta,
@@ -114,7 +114,7 @@ export const productDbDataProvider = (): DataProvider => ({
   },
 
   deleteOne: async ({ resource, id, variables, meta }) => {
-    console.log("deleteOne", {
+    console.log('deleteOne', {
       resource,
       id,
       variables,
@@ -143,7 +143,7 @@ export const productDbDataProvider = (): DataProvider => ({
     headers,
     meta,
   }) => {
-    console.log("custom", {
+    console.log('custom', {
       url,
       method,
       filters,

@@ -1,7 +1,7 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { IResourceComponentsProps } from "@refinedev/core";
-import { List, ShowButton, useDataGrid } from "@refinedev/mui";
-import React from "react";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { IResourceComponentsProps } from '@refinedev/core';
+import { List, ShowButton, useDataGrid } from '@refinedev/mui';
+import React from 'react';
 
 export const SaleList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({});
@@ -9,40 +9,40 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<GridColDef[]>(
     () => [
       {
-        field: "id",
+        field: 'id',
         flex: 1,
-        headerName: "ID",
+        headerName: 'ID',
         minWidth: 100,
         filterable: false,
         sortable: false,
       },
       {
-        field: "date",
+        field: 'date',
         flex: 1,
-        headerName: "Date",
+        headerName: 'Date',
         minWidth: 100,
         filterable: false,
         sortable: false,
         valueFormatter: (value: string) =>
-          new Intl.DateTimeFormat("pt-BR").format(new Date(value)),
+          new Intl.DateTimeFormat('pt-BR').format(new Date(value)),
       },
       {
-        field: "total",
+        field: 'total',
         flex: 1,
-        headerName: "Total",
-        type: "number",
+        headerName: 'Total',
+        type: 'number',
         minWidth: 100,
         filterable: false,
         sortable: false,
         valueFormatter: (value: number) =>
-          new Intl.NumberFormat("pt-BR", {
-            style: "currency",
-            currency: "BRL",
+          new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
           }).format(value),
       },
       {
-        field: "actions",
-        headerName: "Actions",
+        field: 'actions',
+        headerName: 'Actions',
         sortable: false,
         filterable: false,
         renderCell: function render({ row }) {
@@ -52,12 +52,12 @@ export const SaleList: React.FC<IResourceComponentsProps> = () => {
             </>
           );
         },
-        align: "center",
-        headerAlign: "center",
+        align: 'center',
+        headerAlign: 'center',
         minWidth: 80,
       },
     ],
-    []
+    [],
   );
 
   return (

@@ -1,15 +1,10 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { InputAdornment, TextField } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import { IResourceComponentsProps } from "@refinedev/core";
-import {
-  List,
-  EditButton,
-  ShowButton,
-  useDataGrid,
-} from "@refinedev/mui";
-import React from "react";
-import { currencyFormatter } from "../../shared/currency-formatter";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { InputAdornment, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { IResourceComponentsProps } from '@refinedev/core';
+import { List, EditButton, ShowButton, useDataGrid } from '@refinedev/mui';
+import React from 'react';
+import { currencyFormatter } from '../../shared/currency-formatter';
 
 export const ProductList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps, setFilters } = useDataGrid({});
@@ -18,30 +13,32 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
   const handleSearch = (value: string) => {
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
-      setFilters([{ field: "name", operator: "contains", value: value || undefined }]);
+      setFilters([
+        { field: 'name', operator: 'contains', value: value || undefined },
+      ]);
     }, 400);
   };
 
   const columns = React.useMemo<GridColDef[]>(
     () => [
       {
-        field: "id",
-        headerName: "ID",
+        field: 'id',
+        headerName: 'ID',
         minWidth: 50,
         filterable: false,
       },
       {
-        field: "name",
+        field: 'name',
         flex: 1,
-        headerName: "Name",
+        headerName: 'Name',
         minWidth: 200,
         filterable: false,
       },
       {
-        field: "priceHistory",
+        field: 'priceHistory',
         flex: 1,
-        headerName: "Value",
-        type: "number",
+        headerName: 'Value',
+        type: 'number',
         minWidth: 100,
         filterable: false,
         sortable: false,
@@ -57,8 +54,8 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
         valueFormatter: (value: number) => currencyFormatter.format(value),
       },
       {
-        field: "actions",
-        headerName: "Actions",
+        field: 'actions',
+        headerName: 'Actions',
         sortable: false,
         filterable: false,
         renderCell: function render({ row }) {
@@ -69,12 +66,12 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
             </>
           );
         },
-        align: "center",
-        headerAlign: "center",
+        align: 'center',
+        headerAlign: 'center',
         minWidth: 80,
       },
     ],
-    []
+    [],
   );
 
   return (

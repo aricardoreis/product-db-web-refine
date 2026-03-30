@@ -1,7 +1,7 @@
-import { Box, TextField } from "@mui/material";
-import { IResourceComponentsProps } from "@refinedev/core";
-import { Edit } from "@refinedev/mui";
-import { useForm } from "@refinedev/react-hook-form";
+import { Box, TextField } from '@mui/material';
+import { IResourceComponentsProps } from '@refinedev/core';
+import { Edit } from '@refinedev/mui';
+import { useForm } from '@refinedev/react-hook-form';
 
 export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
   const {
@@ -14,12 +14,12 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
     <Edit saveButtonProps={saveButtonProps}>
       <Box
         component="form"
-        sx={{ display: "flex", flexDirection: "column" }}
+        sx={{ display: 'flex', flexDirection: 'column' }}
         autoComplete="off"
       >
         <TextField
-          {...register("name", {
-            required: "This field is required",
+          {...register('name', {
+            required: 'This field is required',
           })}
           error={!!(errors as any)?.title}
           helperText={(errors as any)?.title?.message}
@@ -27,7 +27,7 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
           fullWidth
           InputLabelProps={{ shrink: true }}
           type="text"
-          label={"Name"}
+          label={'Name'}
           name="name"
         />
       </Box>

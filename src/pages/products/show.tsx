@@ -1,13 +1,13 @@
-import { useShow, IResourceComponentsProps } from "@refinedev/core";
+import { useShow, IResourceComponentsProps } from '@refinedev/core';
 import {
   Show,
   NumberField,
   TextFieldComponent as TextField,
   BooleanField,
-} from "@refinedev/mui";
-import { Typography, Stack, Box, Grid } from "@mui/material";
-import { currencyFormatter } from "../../shared/currency-formatter";
-import { formatDate } from "../../shared/date-formatter";
+} from '@refinedev/mui';
+import { Typography, Stack, Box, Grid } from '@mui/material';
+import { currencyFormatter } from '../../shared/currency-formatter';
+import { formatDate } from '../../shared/date-formatter';
 
 export const ProductShow: React.FC<IResourceComponentsProps> = () => {
   const { query, result } = useShow();
@@ -21,7 +21,7 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
         <Typography variant="body1" fontWeight="bold">
           Id
         </Typography>
-        <NumberField value={record?.id ?? ""} />
+        <NumberField value={record?.id ?? ''} />
         <Typography variant="body1" fontWeight="bold">
           Name
         </Typography>
@@ -29,11 +29,11 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
         <Typography variant="body1" fontWeight="bold">
           Code
         </Typography>
-        <TextField value={record?.code ?? ""} />
+        <TextField value={record?.code ?? ''} />
         <Typography variant="body1" fontWeight="bold">
           Amount
         </Typography>
-        <NumberField value={record?.amount ?? ""} />
+        <NumberField value={record?.amount ?? ''} />
         <Typography variant="body1" fontWeight="bold">
           Type
         </Typography>

@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_KEY, EXPIRES_AT, REFRESH_TOKEN } from "./constants";
+import { ACCESS_TOKEN_KEY, EXPIRES_AT, REFRESH_TOKEN } from './constants';
 
 export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN_KEY);

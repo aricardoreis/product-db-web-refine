@@ -1,21 +1,25 @@
-import { AuthProvider } from "@refinedev/core";
-import { clearAuthData, getAccessToken, persistAuthData } from "../shared/storage";
+import { AuthProvider } from '@refinedev/core';
+import {
+  clearAuthData,
+  getAccessToken,
+  persistAuthData,
+} from '../shared/storage';
 
 /**
  * Authentication Provider Configuration
- * 
+ *
  * This provider automatically switches between mock and production authentication based on environment:
- * 
+ *
  * Development Mode (VITE_DISABLE_AUTH=true):
  * - Uses mock auth provider (always authenticated)
  * - No login required
  * - Perfect for local development
- * 
+ *
  * Production Mode (VITE_DISABLE_AUTH=false or undefined):
  * - Uses production auth provider
  * - Full authentication required
  * - Secure for production use
- * 
+ *
  * To disable authentication locally, create a .env.local file with:
  * VITE_DISABLE_AUTH=true
  */
@@ -24,15 +28,21 @@ import { clearAuthData, getAccessToken, persistAuthData } from "../shared/storag
 const isDevelopment = import.meta.env.DEV;
 
 // Check if authentication should be disabled via environment variable
-const disableAuth = import.meta.env.VITE_DISABLE_AUTH === "true";
+const disableAuth = import.meta.env.VITE_DISABLE_AUTH === 'true';
 
 // Log which auth provider is being used
 if (isDevelopment && disableAuth) {
-  console.log("🔓 Development mode: Authentication disabled - using mock auth provider");
+  console.log(
+    '🔓 Development mode: Authentication disabled - using mock auth provider',
+  );
 } else if (isDevelopment) {
-  console.log("🔐 Development mode: Authentication enabled - using production auth provider");
+  console.log(
+    '🔐 Development mode: Authentication enabled - using production auth provider',
+  );
 } else {
-  console.log("🔐 Production mode: Authentication enabled - using production auth provider");
+  console.log(
+    '🔐 Production mode: Authentication enabled - using production auth provider',
+  );
 }
 
 // Mock auth provider for development
@@ -62,10 +72,10 @@ const productionAuthProvider: AuthProvider = {
     const apiUrl: string = import.meta.env.VITE_API_URL;
 
     const response = await fetch(`${apiUrl}/auth/login`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
 
@@ -80,8 +90,8 @@ const productionAuthProvider: AuthProvider = {
     return {
       success: false,
       error: {
-        name: "Login Error",
-        message: "Invalid credentials",
+        name: 'Login Error',
+        message: 'Invalid credentials',
       },
     };
   },
@@ -94,7 +104,7 @@ const productionAuthProvider: AuthProvider = {
     if (error?.status === 401) {
       return {
         logout: true,
-        error: { name: "unauthorized", message: "Unauthorized" },
+        error: { name: 'unauthorized', message: 'Unauthorized' },
       };
     }
 
@@ -103,4 +113,5 @@ const productionAuthProvider: AuthProvider = {
 };
 
 // Export the appropriate auth provider based on environment
-export const authProvider = (isDevelopment && disableAuth) ? mockAuthProvider : productionAuthProvider;
+export const authProvider =
+  isDevelopment && disableAuth ? mockAuthProvider : productionAuthProvider;

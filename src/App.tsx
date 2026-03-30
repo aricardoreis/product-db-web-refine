@@ -1,6 +1,6 @@
-import { Authenticated, Refine } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
+import { Authenticated, Refine } from '@refinedev/core';
+import { DevtoolsPanel, DevtoolsProvider } from '@refinedev/devtools';
+import { RefineKbar, RefineKbarProvider } from '@refinedev/kbar';
 
 import {
   ErrorComponent,
@@ -8,26 +8,26 @@ import {
   ThemedLayout,
   ThemedTitle,
   useNotificationProvider,
-} from "@refinedev/mui";
+} from '@refinedev/mui';
 
-import StoreIcon from "@mui/icons-material/Store";
-import StoreMallDirectoryTwoToneIcon from "@mui/icons-material/StoreMallDirectoryTwoTone";
-import CssBaseline from "@mui/material/CssBaseline";
-import GlobalStyles from "@mui/material/GlobalStyles";
+import StoreIcon from '@mui/icons-material/Store';
+import StoreMallDirectoryTwoToneIcon from '@mui/icons-material/StoreMallDirectoryTwoTone';
+import CssBaseline from '@mui/material/CssBaseline';
+import GlobalStyles from '@mui/material/GlobalStyles';
 import routerBindings, {
   DocumentTitleHandler,
   NavigateToResource,
   UnsavedChangesNotifier,
-} from "@refinedev/react-router";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router";
-import { Header } from "./components/header";
-import { ColorModeContextProvider } from "./contexts/color-mode";
-import { ProductEdit, ProductList, ProductShow } from "./pages/products";
-import { SaleList, SaleShow } from "./pages/sales";
-import { DuplicateList } from "./pages/duplicates";
-import { productDbDataProvider } from "./providers/data-provider";
-import { authProvider } from "./providers/auth-provider";
-import { Login } from "./pages/login";
+} from '@refinedev/react-router';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router';
+import { Header } from './components/header';
+import { ColorModeContextProvider } from './contexts/color-mode';
+import { ProductEdit, ProductList, ProductShow } from './pages/products';
+import { SaleList, SaleShow } from './pages/sales';
+import { DuplicateList } from './pages/duplicates';
+import { productDbDataProvider } from './providers/data-provider';
+import { authProvider } from './providers/auth-provider';
+import { Login } from './pages/login';
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
-          <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
+          <GlobalStyles styles={{ html: { WebkitFontSmoothing: 'auto' } }} />
           <RefineSnackbarProvider>
             <DevtoolsProvider>
               <Refine
@@ -45,7 +45,7 @@ function App() {
                 routerProvider={routerBindings}
                 accessControlProvider={{
                   can: async ({ resource }) => {
-                    if (resource === "dashboard") {
+                    if (resource === 'dashboard') {
                       return { can: false };
                     }
                     return { can: true };
@@ -53,28 +53,28 @@ function App() {
                 }}
                 resources={[
                   {
-                    name: "sales",
-                    list: "/sales",
-                    show: "/sales/show/:id",
+                    name: 'sales',
+                    list: '/sales',
+                    show: '/sales/show/:id',
                     meta: {
                       canDelete: false,
                     },
                   },
                   {
-                    name: "products",
-                    list: "/products",
-                    edit: "/products/edit/:id",
-                    show: "/products/show/:id",
+                    name: 'products',
+                    list: '/products',
+                    edit: '/products/edit/:id',
+                    show: '/products/show/:id',
                     meta: {
                       canDelete: false,
                     },
                   },
                   {
-                    name: "duplicates",
-                    list: "/duplicates",
+                    name: 'duplicates',
+                    list: '/duplicates',
                     meta: {
                       canDelete: false,
-                      label: "Duplicates",
+                      label: 'Duplicates',
                     },
                   },
                 ]}
@@ -82,13 +82,10 @@ function App() {
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
 
-                  projectId: "t0Tb4t-eqUpAQ-clICbo",
+                  projectId: 't0Tb4t-eqUpAQ-clICbo',
                 }}
               >
-                <Authenticated
-                  key="protected"
-                  fallback={<Login />}
-                >
+                <Authenticated key="protected" fallback={<Login />}>
                   <Routes>
                     <Route
                       element={

@@ -6,3 +6,10 @@ export const createSaleFromInvoice = async (url: string) => {
   });
   return response;
 };
+
+export const createSaleFromHtml = async (html: string) => {
+  const response = await axiosInstance.post('/sales', {
+    html,
+  });
+  return response;
+};

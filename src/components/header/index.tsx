@@ -10,10 +10,14 @@ import { useGetIdentity, useNotification } from '@refinedev/core';
 import { HamburgerMenu, RefineThemedLayoutHeaderProps } from '@refinedev/mui';
 import React, { useContext, useState } from 'react';
 import { ColorModeContext } from '../../contexts/color-mode';
-import { CloseOutlined, QrCodeScannerOutlined } from '@mui/icons-material';
+import {
+  CloseOutlined,
+  QrCodeScannerOutlined,
+  UploadFileOutlined,
+} from '@mui/icons-material';
 import { BarcodeScanner } from '../barcode-scanner';
 import { CircularProgress } from '@mui/material';
-import { createSaleFromInvoice } from '../../services';
+import { createSaleFromInvoice, createSaleFromHtml } from '../../services';
 
 type IUser = {
   id: number;
@@ -31,6 +35,40 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
 
   const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const onFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsLoading(true);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const html = e.target?.result as string;
+      createSaleFromHtml(html)
+        .then((data) => {
+          console.log('success creating invoice from html', data);
+          open?.({
+            type: 'success',
+            message: 'Sale created successfully',
+            key: 'sale-creation-success',
+          });
+        })
+        .catch((error) => {
+          console.log('error creating invoice from html', error);
+          open?.({
+            type: 'error',
+            message: 'Error creating sale from HTML',
+            key: 'sale-creation-error',
+          });
+        })
+        .finally(() => {
+          setIsLoading(false);
+          if (fileInputRef.current) fileInputRef.current.value = '';
+        });
+    };
+    reader.readAsText(file);
+  };
 
   const onDecodeResult = async (result: string) => {
     setMounted(false);
@@ -76,6 +114,22 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
             justifyContent="flex-end"
             alignItems="center"
           >
+            <input
+              type="file"
+              accept=".html,.htm"
+              ref={fileInputRef}
+              onChange={onFileUpload}
+              style={{ display: 'none' }}
+            />
+            {!isLoading && (
+              <IconButton
+                color="inherit"
+                onClick={() => fileInputRef.current?.click()}
+                title="Upload NF-e HTML"
+              >
+                <UploadFileOutlined />
+              </IconButton>
+            )}
             <IconButton
               color="inherit"
               onClick={() => {
